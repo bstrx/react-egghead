@@ -1,0 +1,55 @@
+<div id="root"></div>
+<script src="https://unpkg.com/react@16/umd/react.development.js"></script>
+<script src="https://unpkg.com/react-dom@16/umd/react-dom.development.js"></script>
+<script src="https://unpkg.com/babel-standalone@6/babel.min.js"></script>
+<script src="https://unpkg.com/prop-types@15.6/prop-types.js"></script>
+
+<script type="text/babel">
+    const rootElement = document.getElementById('root');
+
+    class Timer extends React.Component {
+        state = {lapse: 0, running: false};
+
+        render() {
+            const {lapse, running} = this.state;
+
+            return (
+                <div>
+                    <label>Time: {lapse}</label>
+                    <button onClick={this.toggleRun}>{running ? 'Stop' : 'Start'}</button>
+                    <button onClick={this.clear}>Clear</button>
+                </div>
+            )
+        }
+
+        toggleRun = () => {
+            this.setState(state => {
+                if (state.running) {
+                    clearInterval(this.timer);
+                } else {
+                    const startTime = Date.now() - state.lapse;
+
+                    this.timer = setInterval(() => {
+                         this.setState({lapse: Date.now() - startTime});
+                    }, 0);
+                }
+
+                return {running: !state.running};
+            });
+        };
+
+        clear = () => {
+            clearInterval(this.timer);
+            this.setState({lapse: 0, running: false});
+        }
+    }
+
+    function renderApp() {
+        ReactDOM.render(
+            <Timer lapse={0} running={false} />,
+            rootElement
+        )
+    }
+
+    renderApp();
+</script>
