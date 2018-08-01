@@ -1,0 +1,54 @@
+<style>
+    .tilt-root {
+        width: 300px;
+        height: 300px;
+        background-color: red
+    }
+
+    .tilt-child {
+        width: 100px;
+        height: 100px;
+        background-color: white
+    }
+</style>
+
+<div id="root"></div>
+<script src="https://unpkg.com/react@16/umd/react.development.js"></script>
+<script src="https://unpkg.com/react-dom@16/umd/react-dom.development.js"></script>
+<script src="https://unpkg.com/babel-standalone@6/babel.min.js"></script>
+<script src="https://unpkg.com/prop-types@15.6/prop-types.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/vanilla-tilt/1.4.1/vanilla-tilt.js"></script>
+
+<script type="text/babel">
+    const rootElement = document.getElementById('root');
+
+    class Tilt extends React.Component {
+        componentDidMount() {
+            VanillaTilt.init(this.rootNode, {
+                max: 25,
+                speed: 400,
+                glare: true,
+                'max-glare': 0.5
+            });
+        }
+
+        render() {
+            return (
+                <div ref={node => (this.rootNode = node)} className="tilt-root">
+                    <div className="tilt-child">
+                        <div {...this.props} />
+                    </div>
+                </div>
+            )
+        }
+    }
+
+    function renderApp() {
+        ReactDOM.render(
+            <Tilt> Something </Tilt>,
+            rootElement
+        )
+    }
+
+    renderApp();
+</script>

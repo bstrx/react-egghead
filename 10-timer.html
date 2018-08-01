@@ -41,6 +41,10 @@
         clear = () => {
             clearInterval(this.timer);
             this.setState({lapse: 0, running: false});
+        };
+
+        componentWillUnmount = () => {
+            clearInterval(this.timer);
         }
     }
 
